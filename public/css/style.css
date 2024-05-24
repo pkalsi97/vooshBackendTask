@@ -10,19 +10,20 @@ body {
   align-items: center; 
 }
 
-form {
-  background: white;
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
   padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  width: 100%; 
-  max-width: 360px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-input[type="text"], input[type="email"], input[type="password"] {
+input[type="text"], input[type="email"], input[type="password"], textarea {
   padding: 10px;
   margin: 10px 0;
   width: 100%; 
@@ -37,7 +38,7 @@ button {
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
-  width: 100%;
+  width: 100%; 
   margin-top: 10px;
 }
 
@@ -48,10 +49,17 @@ button:hover {
 a {
   color: #337ab7;
   text-decoration: none;
-  margin-top: 10px; 
+  margin-top: 10px;
 }
 
 h1 {
   text-align: center;
-  width: 100%; 
+  width: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
