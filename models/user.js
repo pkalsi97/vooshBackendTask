@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../utils/database');
 
-const User = sequelize.define('User', {
+const UserModel = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -20,14 +20,30 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: true
     },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    bio: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    photoUrl: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     profileVisibility: {
         type: DataTypes.STRING,
         defaultValue: 'public'
     },
     role: {
         type: DataTypes.STRING,
-        defaultValue: 'user',
+        defaultValue: 'user'
     }
 });
 
-module.exports = User;
+module.exports = UserModel;
