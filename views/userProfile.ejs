@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login';
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1><%= user.name %>'s Profile</h1>
+        <img src="<%= user.photoUrl %>" alt="<%= user.name %>'s Photo">
+        <p>Email: <%= user.email %></p>
+        <p>Phone: <%= user.phone %></p>
+        <p>Bio: <%= user.bio %></p>
+        <a href="/profiles"><button>View All Profiles</button></a>
+    </div>
+</body>
+</html>
