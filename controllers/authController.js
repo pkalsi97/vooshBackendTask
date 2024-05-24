@@ -1,33 +1,33 @@
-const User = require('../models/user');
+const UserModel = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-function generateToken(user) {
+function generateAuthToken(user) {
     return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
         expiresIn: '1h'
     });
 }
 
-exports.register = async (req, res) => {
+exports.registerUser = async (req, res) => {
     const { email, password, confirmPassword } = req.body;
     if (password !== confirmPassword) {
         return res.status(400).json({ success: false, message: 'Passwords do not match' });
     }
     try {
         const hashedPassword = await bcrypt.hash(password, 12);
-        const newUser = await User.create({
+        const newUser = await UserModel.create({
             email,
             password: hashedPassword
         });
-        const token = generateToken(newUser);
+        const token = generateAuthToken(newUser);
         res.json({ success: true, token });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Email already exists or registration failed' });
     }
 };
 
-exports.login = (req, res, next) => {
+exports.loginUser = (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
         if (err || !user) {
             return res.status(400).json({ success: false, message: 'Authentication failed', info });
@@ -36,20 +36,20 @@ exports.login = (req, res, next) => {
             if (error) {
                 return res.send(error);
             }
-            const token = generateToken(user);
+            const token = generateAuthToken(user);
             res.json({ success: true, token });
         });
     })(req, res, next);
 };
 
-exports.githubAuth = passport.authenticate('github');
+exports.githubAuthentication = passport.authenticate('github');
 
 exports.githubAuthCallback = (req, res) => {
     passport.authenticate('github', (err, user, info) => {
         if (err || !user) {
             return res.redirect('/login');
         }
-        const token = generateToken(user);
+        const token = generateAuthToken(user);
         res.redirect(`/dashboard?token=${token}`);
     })(req, res);
 };
