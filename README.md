@@ -1,6 +1,6 @@
 
 # Node.js Authentication and Profile Management System
-
+![Alt Text](https://drive.google.com/file/d/1QRTEMIxYPI3T4gX6lhF6wfWSbwvvPh4y/view?usp=sharing)
 ## Features
 
 - User Registration and Login
