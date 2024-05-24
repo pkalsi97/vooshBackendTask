@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script>
+        async function updateProfile(event) {
+            event.preventDefault();
+            const name = document.querySelector('input[name="name"]').value;
+            const bio = document.querySelector('textarea[name="bio"]').value;
+            const phone = document.querySelector('input[name="phone"]').value;
+            const email = document.querySelector('input[name="email"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+            const photoUrl = document.querySelector('input[name="photoUrl"]').value;
+            const profileVisibility = document.querySelector('select[name="profileVisibility"]').value;
+
+            const response = await fetch('/profile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ name, bio, phone, email, password, photoUrl, profileVisibility })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert('Profile updated successfully');
+            } else {
+                alert(data.message);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login';
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Profile</h1>
+        <form onsubmit="updateProfile(event)">
+            <input type="text" name="name" placeholder="Name" value="<%= user.name %>">
+            <textarea name="bio" placeholder="Bio"><%= user.bio %></textarea>
+            <input type="text" name="phone" placeholder="Phone" value="<%= user.phone %>">
+            <input type="email" name="email" placeholder="Email" value="<%= user.email %>">
+            <input type="password" name="password" placeholder="New Password">
+            <input type="text" name="photoUrl" placeholder="Photo URL" value="<%= user.photoUrl %>">
+            <label>
+                Profile Visibility:
+                <select name="profileVisibility">
+                    <option value="public" <%= user.profileVisibility === 'public' ? 'selected' : '' %>>Public</option>
+                    <option value="private" <%= user.profileVisibility === 'private' ? 'selected' : '' %>>Private</option>
+                </select>
+            </label>
+            <button type="submit">Update Profile</button>
+        </form>
+        <a href="/profiles"><button>View All Profiles</button></a>
+    </div>
+</body>
+</html>
